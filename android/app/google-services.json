@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "586074781896",
+    "project_id": "zitch-5f2b1",
+    "storage_bucket": "zitch-5f2b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586074781896:android:c1f321d1c43246ccd78dfd",
+        "android_client_info": {
+          "package_name": "com.example.zitch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATx3dOxGOanlBrf50qcxKNnx6bkepnBME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
