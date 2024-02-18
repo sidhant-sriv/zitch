@@ -6,12 +6,17 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
 Future<void> main() async {
-
   // * Ensures that the Flutter Widgets library is initialized
   WidgetsFlutterBinding.ensureInitialized();
 
   // * Initializes Firebase
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+    appId: '1:586074781896:android:c1f321d1c43246ccd78dfd',
+    messagingSenderId: '586074781896',
+    projectId: 'zitch-5f2b1',
+    apiKey: 'AIzaSyATx3dOxGOanlBrf50qcxKNnx6bkepnBME',
+  ));
 
   // * Crashlytics Initialization
   FlutterError.onError = (errorDetails) {
@@ -27,5 +32,5 @@ Future<void> main() async {
     const ProviderScope(
       child: MyApp(),
     ),
-  ); 
+  );
 }
