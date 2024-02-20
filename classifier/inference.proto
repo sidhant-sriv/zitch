@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package inference;
 
+option go_package = "api/inference";
+
 message Image {
   bytes content = 1;
 }
