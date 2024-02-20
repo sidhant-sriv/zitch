@@ -34,6 +34,10 @@ func (app *application) createDataHandler(w http.ResponseWriter, r *http.Request
 		Timestamp: time,
 	}
 
+	if err := data.Validate(); err != nil {
+		app.failedValidationResponse(w, r, err)
+	}
+
 	// Function to create data here
 	err = createData(data)
 	if err != nil {
@@ -112,6 +116,10 @@ func (app *application) updateDataHandler(w http.ResponseWriter, r *http.Request
 			app.serverErrorResponse(w, r, err)
 			return
 		}
+	}
+
+	if err := data.Validate(); err != nil {
+		app.failedValidationResponse(w, r, err)
 	}
 
 	// Function to update Data here

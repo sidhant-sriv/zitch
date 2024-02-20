@@ -14,6 +14,24 @@ type Data struct {
 	Timestamp time.Time `json:"timestamp"`
 }
 
+func (data *Data) Validate() map[string]string {
+	Errors := make(map[string]string)
+
+	if !(-90 <= data.Latitude || data.Latitude <= 90) {
+		if _, exists := Errors["latitude"]; !exists {
+			Errors["latitude"] = "must be a valid latitude"
+		}
+	}
+
+	if !(-180 <= data.Longitude || data.Longitude <= 180) {
+		if _, exists := Errors["longitude"]; !exists {
+			Errors["longitude"] = "must be a valid longitude"
+		}
+	}
+
+	return Errors
+}
+
 func createData(data *Data) error {
 	return nil
 }
