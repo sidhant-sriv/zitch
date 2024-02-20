@@ -7,14 +7,6 @@ import (
 	"github.com/google/uuid"
 )
 
-type Data struct {
-	ID        uuid.UUID
-	ImgUrl    string    `json:"imgurl"`
-	Latitude  float64   `json:"latitude"`
-	Longitude float64   `json:"longitude"`
-	Timestamp time.Time `json:"timestamp"`
-}
-
 func (app *application) createDataHandler(w http.ResponseWriter, r *http.Request) {
 	var input struct {
 		ImgUrl    string  `json:"imgurl"`
@@ -106,13 +98,13 @@ func (app *application) updateDataHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	if input.ImgUrl != nil {
-		data.ImgUrl = input.ImgUrl
+		data.ImgUrl = *input.ImgUrl
 	}
 	if input.Latitude != nil {
-		data.Latitude = input.Latitude
+		data.Latitude = *input.Latitude
 	}
 	if input.Longitude != nil {
-		data.Longitude = input.Longitude
+		data.Longitude = *input.Longitude
 	}
 	if input.Timestamp != nil {
 		data.Timestamp, err = time.Parse("2006-01-02 15:04", *input.Timestamp)
@@ -123,7 +115,7 @@ func (app *application) updateDataHandler(w http.ResponseWriter, r *http.Request
 	}
 
 	// Function to update Data here
-	err = updateData(id)
+	err = updateData(data)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
