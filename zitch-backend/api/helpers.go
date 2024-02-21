@@ -7,9 +7,6 @@ import (
 	"io"
 	"net/http"
 	"strings"
-
-	"github.com/google/uuid"
-	"github.com/julienschmidt/httprouter"
 )
 
 // envelope is a custom type used to envelope JSON data in a parent JSON Object
@@ -85,16 +82,4 @@ func (app *application) readJSON(w http.ResponseWriter, r *http.Request, dst int
 	}
 
 	return nil
-}
-
-// readUUIDParam reads the UUID path variable from the url
-func (app *application) readUUIDParam(r *http.Request) (uuid.UUID, error) {
-	params := httprouter.ParamsFromContext(r.Context())
-
-	id, err := uuid.Parse(params.ByName("id"))
-	if err != nil {
-		return uuid.Nil, errors.New("invalid uuid parameter")
-	}
-
-	return id, nil
 }

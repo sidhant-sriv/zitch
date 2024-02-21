@@ -7,7 +7,6 @@ import (
 	"os"
 	"strconv"
 	"time"
-	"zitch/backend/api/inference"
 )
 
 const version = "1.0.0"
@@ -23,9 +22,6 @@ type application struct {
 }
 
 func main() {
-	//Call the inference function and get prediction
-	value, confidence := inference.Inference("IMAGEPATH")
-	fmt.Printf("Prediction: value = %d, confidence = %d", value, confidence)
 	var cfg config
 
 	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -57,6 +53,5 @@ func main() {
 	logger.Printf("starting %s server on %s", cfg.env, srv.Addr)
 	err := srv.ListenAndServe()
 	logger.Fatal(err)
-	
-}
 
+}

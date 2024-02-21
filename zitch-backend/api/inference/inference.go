@@ -42,41 +42,42 @@ package inference
 
 import (
 	"context"
-	"log"
+	"fmt"
 	"os"
+
 	"google.golang.org/grpc"
 )
 
 const (
-    address = "localhost:50051"
+	address = "localhost:50051"
 )
 
-func Inference(imagePath string) (int32, int32){
-    // Read image data
-    imageData, err := os.ReadFile(imagePath)
+func Inference(imagePath string) (int32, int32, error) {
+	// Read image data
+	imageData, err := os.ReadFile(imagePath)
 
-    if err != nil {
-        log.Fatalf("Error reading image: %v", err)
-    }
-    // Connect to the server
-    conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
-    if err != nil {
-        log.Fatalf("Error connecting to server: %v", err)
-    }
-    defer conn.Close()
+	if err != nil {
+		return -1, -1, fmt.Errorf("error reading image: %v", err)
+	}
+	// Connect to the server
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		return -1, -1, fmt.Errorf("error connecting to server: %v", err)
+	}
+	defer conn.Close()
 
-    // Create the client stub
-    client := NewInferenceClient(conn)
+	// Create the client stub
+	client := NewInferenceClient(conn)
 
-    // Start time measurement
+	// Start time measurement
 
-    // Send prediction request
-    ctx := context.Background()
-    response, err := client.Predict(ctx, &Image{Content: imageData})
-    if err != nil {
-        log.Fatalf("Error getting prediction: %v", err)
-    }
+	// Send prediction request
+	ctx := context.Background()
+	response, err := client.Predict(ctx, &Image{Content: imageData})
+	if err != nil {
+		return -1, -1, fmt.Errorf("error getting prediction: %v", err)
+	}
 
-    // Calculate and print execution time
-    return response.GetValue(), response.GetConfidence()
+	// Calculate and print execution time
+	return response.GetValue(), response.GetConfidence(), nil
 }
