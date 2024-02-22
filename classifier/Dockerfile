@@ -14,4 +14,4 @@ RUN pip3 install -r requirements.txt
 EXPOSE 50051
 
 # Run server.py when the container launches
-CMD ["python", "server.py"]
+CMD ["python", "serve.py"]

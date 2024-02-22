@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  api-go:
+    build: ./zitch-backend
+    ports:
+      - 4000:4000
+    depends_on:
+      - classifier
+    networks:
+      - zitch-network
+
+  classifier:
+    build: ./classifier
+    ports:
+      - 50051:50051
+    networks:
+      - zitch-network
+
+networks:
+  zitch-network:
