@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:zitch/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:zitch/presentation/views/auth_checker.dart';
+import 'package:zitch/theme.dart';
 
+//  This is a FutureProvider that will be used to check whether the firebase has been initialized or not
+final firebaseinitializerProvider = FutureProvider<FirebaseApp>((ref) async {
+  return await Firebase.initializeApp();
+});
 Future<void> main() async {
   // * Ensures that the Flutter Widgets library is initialized
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,11 +36,33 @@ Future<void> main() async {
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  runApp(const ProviderScope(child: MyApp()));
+}
 
-  // * Runs the app
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+class MyApp extends ConsumerWidget {
+  const MyApp({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final firebaseApp = ref.watch(firebaseinitializerProvider);
+    return MaterialApp(
+      title: 'Zitch',
+      debugShowCheckedModeBanner: false,
+      theme: appTheme,
+      home: firebaseApp.when(
+        data: (app) {
+            return const AuthChecker();
+          },
+        loading: () => const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+        error: (error, stack) => Scaffold(
+          body: Center(
+            child: Text('Error Occured: $error'),
+          ),
+        ),
+      ),
+    );
+  }
 }
