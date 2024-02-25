@@ -8,7 +8,7 @@ def run():
     with open("image.jpg", "rb") as f:
         image_bytes = f.read()
 
-    with grpc.insecure_channel("localhost:50051") as channel:
+    with grpc.insecure_channel("35.192.204.153") as channel:
         stub = inference_pb2_grpc.InferenceStub(channel)
         response = stub.Predict(inference_pb2.Image(content=image_bytes))
     s = time.time()

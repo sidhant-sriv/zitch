@@ -3,17 +3,27 @@ version: '3.8'
 services:
   api-go:
     build: ./zitch-backend
-    ports:
-      - 4000:4000
-    depends_on:
-      - classifier
+    expose:
+      - "4000"
     networks:
       - zitch-network
 
   classifier:
     build: ./classifier
+    expose:
+      - "50051"
+    networks:
+      - zitch-network
+
+  nginx-proxy:
+    image: nginx:latest
     ports:
-      - 50051:50051
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api-go
+      - classifier
     networks:
       - zitch-network
 
