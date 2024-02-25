@@ -7,7 +7,7 @@ import (
 
 func (app *application) callClassifierHandler(w http.ResponseWriter, r *http.Request) {
 	var input struct {
-		Imgurl string `json:"imgurl"`
+		Imgurl []byte `json:"img"`
 	}
 
 	err := app.readJSON(w, r, &input)
