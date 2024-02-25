@@ -11,6 +11,7 @@ import 'package:zitch/theme.dart';
 final firebaseinitializerProvider = FutureProvider<FirebaseApp>((ref) async {
   return await Firebase.initializeApp();
 });
+
 Future<void> main() async {
   // * Ensures that the Flutter Widgets library is initialized
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,8 +51,8 @@ class MyApp extends ConsumerWidget {
       theme: appTheme,
       home: firebaseApp.when(
         data: (app) {
-            return const AuthChecker();
-          },
+          return const AuthChecker();
+        },
         loading: () => const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),

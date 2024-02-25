@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:zitch/presentation/views/camera_view.dart';
+import 'package:zitch/presentation/views/community_view.dart';
+import 'package:zitch/presentation/views/maps_view.dart';
+import 'package:zitch/presentation/views/profile_view.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({
     super.key,
-    required this.child,
   });
-  final Widget child;
 
   @override
   State<RootPage> createState() => _RootPageState();
@@ -17,50 +18,34 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _children = [
+      const CameraView(),
+      const CommunityView(),
+      const MapsView(),
+      const ProfileView(),
+    ];
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 75,
+        toolbarHeight: 100,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Image.asset(
-            'assets/images/zitch_icon.png',
-            width: 107,
-          ),
+        title: Center(
+          child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Image.asset(
+                'assets/zitch_icon.png',
+                height: 40,
+              )),
         ),
       ),
-      body: widget.child,
+      body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         useLegacyColorScheme: false,
         currentIndex: _currentIndex,
         onTap: (index) {
-          switch (index) {
-            case 0:
-              setState(() {
-                _currentIndex = index;
-              });
-              context.go('/camera');
-              break;
-            case 1:
-              setState(() {
-                _currentIndex = index;
-              });
-              context.go('/community');
-              break;
-            case 2:
-              setState(() {
-                _currentIndex = index;
-              });
-              context.go('/maps');
-              break;
-            case 3:
-              setState(() {
-                _currentIndex = index;
-              });
-              context.go('/profile');
-              break;
-          }
+          setState(() {
+            _currentIndex = index;
+          });
         },
         items: const [
           BottomNavigationBarItem(
@@ -76,7 +61,7 @@ class _RootPageState extends State<RootPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.map_outlined),
             activeIcon: Icon(Icons.map_rounded),
-            label: 'Maps',
+            label: 'Info',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.pets_outlined),

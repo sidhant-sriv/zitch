@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zitch/presentation/pages/home_page.dart';
 import 'package:zitch/presentation/pages/onboarding.dart';
+import 'package:zitch/presentation/pages/root_page.dart';
 import 'package:zitch/repository/auth_repository.dart';
 
 final authenticationProvider = Provider<Authentication>((ref) {
@@ -21,7 +21,7 @@ class AuthChecker extends ConsumerWidget {
     return authState.when(
         data: (data) {
           print("User data $data");
-          if (data != null) return const HomePage();
+          if (data != null) return const RootPage();
           return const OnBoardingPage();
         },
         loading: () => const CircularProgressIndicator(),
