@@ -43,6 +43,7 @@ package inference
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"google.golang.org/grpc"
 )
@@ -51,13 +52,13 @@ const (
 	address = "localhost:50051"
 )
 
-func Inference(imageData []byte) (int32, int32, error) {
+func Inference(imagePath string) (int32, int32, error) {
 	// Read image data
-	// imageData, err := os.ReadFile(imagePath)
+	imageData, err := os.ReadFile(imagePath)
 
-	// if err != nil {
-	// 	return -1, -1, fmt.Errorf("error reading image: %v", err)
-	// }
+	if err != nil {
+		return -1, -1, fmt.Errorf("error reading image: %v", err)
+	}
 	// Connect to the server
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
